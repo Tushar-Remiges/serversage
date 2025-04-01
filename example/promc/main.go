@@ -9,7 +9,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"github.com/remiges-tech/serversage/example/metrics"
+	"github.com/remiges-tech/serversage/example/promc/metrics"
 )
 
 func main() {

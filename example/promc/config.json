@@ -1,0 +1,44 @@
+{
+    "metrics": [
+      {
+        "name": "system_uptime_seconds",
+        "type": "gauge",
+        "help": "The total system uptime in seconds."
+      },
+      {
+        "name": "http_requests_total",
+        "type": "counter",
+        "labels": [
+          "method",
+          "status"
+        ],
+        "help": "The total number of HTTP requests."
+      },
+      {
+        "name": "http_request_duration_seconds",
+        "type": "histogram",
+        "labels": [
+          "method",
+          "status"
+        ],
+        "buckets": [
+          0.001,
+          0.01,
+          0.1,
+          0.5,
+          1,
+          5,
+          10
+        ],
+        "help": "The duration of HTTP requests in seconds."
+      },
+      {
+        "name": "active_sessions",
+        "type": "gauge",
+        "labels": [
+          "user_type"
+        ],
+        "help": "The current number of active sessions."
+      }
+    ]
+  }
