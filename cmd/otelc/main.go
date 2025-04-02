@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"go/format"
 	"os"
+	"os/exec"
 	"strings"
 	"text/template"
 
@@ -93,6 +94,7 @@ func main() {
 		Long: `A tool to generate Prometheus metrics Go code from a JSON configuration file.
 Complete documentation is available at http://example.com`,
 		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println("Generating code...")
 			// Load and parse the YAML configuration file.
 			content, err := os.ReadFile(configPath)
 			if err != nil {
@@ -188,10 +190,18 @@ Complete documentation is available at http://example.com`,
 	}
 	rootCmd.AddCommand(versionCmd)
 
+	// Run 'go mod tidy' automatically
+	defer func() {
+		if err := runGoModTidy(); err != nil {
+			fmt.Println("Error running 'go mod tidy':", err)
+			os.Exit(1)
+		}
+	}()
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
+	fmt.Println("Code generation complete and dependencies updated.")
 }
 
 func validateConfig(content []byte) error {
@@ -220,4 +230,11 @@ func validateConfig(content []byte) error {
 	}
 
 	return nil
+}
+
+func runGoModTidy() error {
+	cmd := exec.Command("go", "mod", "tidy")
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	return cmd.Run()
 }
